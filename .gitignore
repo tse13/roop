@@ -2,3 +2,9 @@
 models
 temp
 __pycache__
+desktop.ini
+Thumbs.db
+.DS_Store
+.idea/
+.vscode/
+
