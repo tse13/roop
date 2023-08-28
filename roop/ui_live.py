@@ -57,53 +57,53 @@ def create_root(start: Callable[[], None], destroy: Callable[[], None]) -> ctk.C
     root.configure()
     root.protocol('WM_DELETE_WINDOW', lambda: destroy())
 
-    source_label = ctk.CTkLabel(root, text=None)
+    source_label = ctk.CTkLabel(root, text=None, font=('宋体', 13))
     source_label.place(relx=0.1, rely=0.1, relwidth=0.3, relheight=0.25)
 
-    target_label = ctk.CTkLabel(root, text=None)
+    target_label = ctk.CTkLabel(root, text=None, font=('宋体', 13))
     target_label.place(relx=0.6, rely=0.1, relwidth=0.3, relheight=0.25)
 
-    source_button = ctk.CTkButton(root, text='Select a face', cursor='hand2', command=lambda: select_source_path())
+    source_button = ctk.CTkButton(root, text='选择源图像', cursor='hand2', command=lambda: select_source_path(), font=('宋体', 13))
     source_button.place(relx=0.1, rely=0.4, relwidth=0.3, relheight=0.1)
 
-    target_button = ctk.CTkButton(root, text='Select a target', cursor='hand2', command=lambda: select_target_path())
+    target_button = ctk.CTkButton(root, text='选择目标图像/视频', cursor='hand2', command=lambda: select_target_path(), font=('宋体', 13))
     target_button.place(relx=0.6, rely=0.4, relwidth=0.3, relheight=0.1)
 
     keep_fps_value = ctk.BooleanVar(value=roop.globals.keep_fps)
-    keep_fps_checkbox = ctk.CTkSwitch(root, text='Keep fps', variable=keep_fps_value, cursor='hand2', command=lambda: setattr(roop.globals, 'keep_fps', not roop.globals.keep_fps))
+    keep_fps_checkbox = ctk.CTkSwitch(root, text='保持帧率', variable=keep_fps_value, cursor='hand2', command=lambda: setattr(roop.globals, 'keep_fps', not roop.globals.keep_fps), font=('宋体', 13))
     keep_fps_checkbox.place(relx=0.1, rely=0.6)
 
     keep_frames_value = ctk.BooleanVar(value=roop.globals.keep_frames)
-    keep_frames_switch = ctk.CTkSwitch(root, text='Keep frames', variable=keep_frames_value, cursor='hand2', command=lambda: setattr(roop.globals, 'keep_frames', keep_frames_value.get()))
+    keep_frames_switch = ctk.CTkSwitch(root, text='保持帧数', variable=keep_frames_value, cursor='hand2', command=lambda: setattr(roop.globals, 'keep_frames', keep_frames_value.get()), font=('宋体', 13))
     keep_frames_switch.place(relx=0.1, rely=0.65)
 
     keep_audio_value = ctk.BooleanVar(value=roop.globals.skip_audio)
-    keep_audio_switch = ctk.CTkSwitch(root, text='Keep audio', variable=keep_audio_value, cursor='hand2', command=lambda: setattr(roop.globals, 'skip_audio', keep_audio_value.get()))
+    keep_audio_switch = ctk.CTkSwitch(root, text='保持音频', variable=keep_audio_value, cursor='hand2', command=lambda: setattr(roop.globals, 'skip_audio', keep_audio_value.get()), font=('宋体', 13))
     keep_audio_switch.place(relx=0.6, rely=0.6)
 
     many_faces_value = ctk.BooleanVar(value=roop.globals.many_faces)
-    many_faces_switch = ctk.CTkSwitch(root, text='Many faces', variable=many_faces_value, cursor='hand2', command=lambda: setattr(roop.globals, 'many_faces', many_faces_value.get()))
+    many_faces_switch = ctk.CTkSwitch(root, text='多张脸', variable=many_faces_value, cursor='hand2', command=lambda: setattr(roop.globals, 'many_faces', many_faces_value.get()), font=('宋体', 13))
     many_faces_switch.place(relx=0.6, rely=0.65)
 
-    start_button = ctk.CTkButton(root, text='Start', cursor='hand2', command=lambda: select_output_path(start))
+    start_button = ctk.CTkButton(root, text='开始', cursor='hand2', command=lambda: select_output_path(start), font=('宋体', 13))
     start_button.place(relx=0.15, rely=0.75, relwidth=0.2, relheight=0.05)
 
-    stop_button = ctk.CTkButton(root, text='Destroy', cursor='hand2', command=lambda: destroy())
+    stop_button = ctk.CTkButton(root, text='退出', cursor='hand2', command=lambda: destroy(), font=('宋体', 13))
     stop_button.place(relx=0.4, rely=0.75, relwidth=0.2, relheight=0.05)
 
-    preview_button = ctk.CTkButton(root, text='Preview', cursor='hand2', command=lambda: toggle_preview())
+    preview_button = ctk.CTkButton(root, text='预览', cursor='hand2', command=lambda: toggle_preview(), font=('宋体', 13))
     preview_button.place(relx=0.65, rely=0.75, relwidth=0.2, relheight=0.05)
     
-    live_button = ctk.CTkButton(root, text='Live', cursor='hand2', command=lambda: webcam_preview())
+    live_button = ctk.CTkButton(root, text='实时', cursor='hand2', command=lambda: webcam_preview(), font=('宋体', 13))
     live_button.place(relx=0.40, rely=0.83, relwidth=0.2, relheight=0.05)
 
-    status_label = ctk.CTkLabel(root, text=None, justify='center')
+    status_label = ctk.CTkLabel(root, text=None, justify='center', font=('宋体', 13))
     status_label.place(relx=0.1, rely=0.9, relwidth=0.8)
 
-    donate_label = ctk.CTkLabel(root, text='Become a GitHub Sponsor', justify='center', cursor='hand2')
+    donate_label = ctk.CTkLabel(root, text='意见反馈', justify='center', cursor='hand2', font=('宋体', 13))
     donate_label.place(relx=0.1, rely=0.95, relwidth=0.8)
     donate_label.configure(text_color=ctk.ThemeManager.theme.get('RoopDonate').get('text_color'))
-    donate_label.bind('<Button>', lambda event: webbrowser.open('https://github.com/sponsors/s0md3v'))
+    donate_label.bind('<Button>', lambda event: webbrowser.open('https://caovan.com'))
 
     return root
 
@@ -113,7 +113,7 @@ def create_preview(parent: ctk.CTkToplevel) -> ctk.CTkToplevel:
 
     preview = ctk.CTkToplevel(parent)
     preview.withdraw()
-    preview.title('Preview')
+    preview.title('预览')
     preview.configure()
     preview.protocol('WM_DELETE_WINDOW', lambda: toggle_preview())
     preview.resizable(width=False, height=False)
