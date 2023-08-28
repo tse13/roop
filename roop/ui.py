@@ -34,13 +34,10 @@ source_label = None
 target_label = None
 status_label = None
 
-
-# todo: remove by native support -> https://github.com/TomSchimansky/CustomTkinter/issues/934
 class CTk(ctk.CTk, TkinterDnD.DnDWrapper):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self.TkdndVersion = TkinterDnD._require(self)
-
 
 def init(start: Callable[[], None], destroy: Callable[[], None]) -> ctk.CTk:
     global ROOT, PREVIEW
@@ -49,7 +46,6 @@ def init(start: Callable[[], None], destroy: Callable[[], None]) -> ctk.CTk:
     PREVIEW = create_preview(ROOT)
 
     return ROOT
-
 
 def create_root(start: Callable[[], None], destroy: Callable[[], None]) -> ctk.CTk:
     global source_label, target_label, status_label
@@ -78,47 +74,46 @@ def create_root(start: Callable[[], None], destroy: Callable[[], None]) -> ctk.C
     if roop.globals.target_path:
         select_target_path(roop.globals.target_path)
 
-    source_button = ctk.CTkButton(root, text='Select a face', cursor='hand2', command=lambda: select_source_path())
+    source_button = ctk.CTkButton(root, text='选择源图像', cursor='hand2', command=lambda: select_source_path(), font=('宋体', 13))
     source_button.place(relx=0.1, rely=0.4, relwidth=0.3, relheight=0.1)
 
-    target_button = ctk.CTkButton(root, text='Select a target', cursor='hand2', command=lambda: select_target_path())
+    target_button = ctk.CTkButton(root, text='选择目标图像/视频', cursor='hand2', command=lambda: select_target_path(), font=('宋体', 13))
     target_button.place(relx=0.6, rely=0.4, relwidth=0.3, relheight=0.1)
 
     keep_fps_value = ctk.BooleanVar(value=roop.globals.keep_fps)
-    keep_fps_checkbox = ctk.CTkSwitch(root, text='Keep target fps', variable=keep_fps_value, cursor='hand2', command=lambda: setattr(roop.globals, 'keep_fps', not roop.globals.keep_fps))
+    keep_fps_checkbox = ctk.CTkSwitch(root, text='保留目标帧率', variable=keep_fps_value, cursor='hand2', command=lambda: setattr(roop.globals, 'keep_fps', not roop.globals.keep_fps), font=('宋体', 13))
     keep_fps_checkbox.place(relx=0.1, rely=0.6)
 
     keep_frames_value = ctk.BooleanVar(value=roop.globals.keep_frames)
-    keep_frames_switch = ctk.CTkSwitch(root, text='Keep temporary frames', variable=keep_frames_value, cursor='hand2', command=lambda: setattr(roop.globals, 'keep_frames', keep_frames_value.get()))
+    keep_frames_switch = ctk.CTkSwitch(root, text='保留临时帧', variable=keep_frames_value, cursor='hand2', command=lambda: setattr(roop.globals, 'keep_frames', keep_frames_value.get()), font=('宋体', 13))
     keep_frames_switch.place(relx=0.1, rely=0.65)
 
     skip_audio_value = ctk.BooleanVar(value=roop.globals.skip_audio)
-    skip_audio_switch = ctk.CTkSwitch(root, text='Skip target audio', variable=skip_audio_value, cursor='hand2', command=lambda: setattr(roop.globals, 'skip_audio', skip_audio_value.get()))
+    skip_audio_switch = ctk.CTkSwitch(root, text='跳过目标音频', variable=skip_audio_value, cursor='hand2', command=lambda: setattr(roop.globals, 'skip_audio', skip_audio_value.get()), font=('宋体', 13))
     skip_audio_switch.place(relx=0.6, rely=0.6)
 
     many_faces_value = ctk.BooleanVar(value=roop.globals.many_faces)
-    many_faces_switch = ctk.CTkSwitch(root, text='Many faces', variable=many_faces_value, cursor='hand2', command=lambda: setattr(roop.globals, 'many_faces', many_faces_value.get()))
+    many_faces_switch = ctk.CTkSwitch(root, text='多张脸', variable=many_faces_value, cursor='hand2', command=lambda: setattr(roop.globals, 'many_faces', many_faces_value.get()), font=('宋体', 13))
     many_faces_switch.place(relx=0.6, rely=0.65)
 
-    start_button = ctk.CTkButton(root, text='Start', cursor='hand2', command=lambda: select_output_path(start))
+    start_button = ctk.CTkButton(root, text='开始', cursor='hand2', command=lambda: select_output_path(start), font=('宋体', 13))
     start_button.place(relx=0.15, rely=0.75, relwidth=0.2, relheight=0.05)
 
-    stop_button = ctk.CTkButton(root, text='Destroy', cursor='hand2', command=lambda: destroy())
+    stop_button = ctk.CTkButton(root, text='关闭', cursor='hand2', command=lambda: destroy(), font=('宋体', 13))
     stop_button.place(relx=0.4, rely=0.75, relwidth=0.2, relheight=0.05)
 
-    preview_button = ctk.CTkButton(root, text='Preview', cursor='hand2', command=lambda: toggle_preview())
+    preview_button = ctk.CTkButton(root, text='预览', cursor='hand2', command=lambda: toggle_preview(), font=('宋体', 13))
     preview_button.place(relx=0.65, rely=0.75, relwidth=0.2, relheight=0.05)
 
     status_label = ctk.CTkLabel(root, text=None, justify='center')
     status_label.place(relx=0.1, rely=0.9, relwidth=0.8)
 
-    donate_label = ctk.CTkLabel(root, text='^_^ Donate to project ^_^', justify='center', cursor='hand2')
+    donate_label = ctk.CTkLabel(root, text='意见反馈', justify='center', cursor='hand2', font=('宋体', 13))
     donate_label.place(relx=0.1, rely=0.95, relwidth=0.8)
     donate_label.configure(text_color=ctk.ThemeManager.theme.get('RoopDonate').get('text_color'))
-    donate_label.bind('<Button>', lambda event: webbrowser.open('https://github.com/sponsors/s0md3v'))
+    donate_label.bind('<Button>', lambda event: webbrowser.open('https://caovan.com'))
 
     return root
-
 
 def create_preview(parent: ctk.CTkToplevel) -> ctk.CTkToplevel:
     global preview_label, preview_slider
@@ -138,11 +133,9 @@ def create_preview(parent: ctk.CTkToplevel) -> ctk.CTkToplevel:
     preview.bind('<Down>', lambda event: update_face_reference(-1))
     return preview
 
-
 def update_status(text: str) -> None:
     status_label.configure(text=text)
     ROOT.update()
-
 
 def select_source_path(source_path: Optional[str] = None) -> None:
     global RECENT_DIRECTORY_SOURCE
@@ -150,7 +143,7 @@ def select_source_path(source_path: Optional[str] = None) -> None:
     if PREVIEW:
         PREVIEW.withdraw()
     if source_path is None:
-        source_path = ctk.filedialog.askopenfilename(title='select an source image', initialdir=RECENT_DIRECTORY_SOURCE)
+        source_path = ctk.filedialog.askopenfilename(title='选择源图像', initialdir=RECENT_DIRECTORY_SOURCE)
     if is_image(source_path):
         roop.globals.source_path = source_path
         RECENT_DIRECTORY_SOURCE = os.path.dirname(roop.globals.source_path)
@@ -160,7 +153,6 @@ def select_source_path(source_path: Optional[str] = None) -> None:
         roop.globals.source_path = None
         source_label.configure(image=None)
 
-
 def select_target_path(target_path: Optional[str] = None) -> None:
     global RECENT_DIRECTORY_TARGET
 
@@ -168,7 +160,7 @@ def select_target_path(target_path: Optional[str] = None) -> None:
         PREVIEW.withdraw()
     clear_face_reference()
     if target_path is None:
-        target_path = ctk.filedialog.askopenfilename(title='select an target image or video', initialdir=RECENT_DIRECTORY_TARGET)
+        target_path = ctk.filedialog.askopenfilename(title='选择目标图像或视频', initialdir=RECENT_DIRECTORY_TARGET)
     if is_image(target_path):
         roop.globals.target_path = target_path
         RECENT_DIRECTORY_TARGET = os.path.dirname(roop.globals.target_path)
@@ -183,14 +175,13 @@ def select_target_path(target_path: Optional[str] = None) -> None:
         roop.globals.target_path = None
         target_label.configure(image=None)
 
-
 def select_output_path(start: Callable[[], None]) -> None:
     global RECENT_DIRECTORY_OUTPUT
 
     if is_image(roop.globals.target_path):
-        output_path = ctk.filedialog.asksaveasfilename(title='save image output file', defaultextension='.png', initialfile='output.png', initialdir=RECENT_DIRECTORY_OUTPUT)
+        output_path = ctk.filedialog.asksaveasfilename(title='保存图像输出文件', defaultextension='.png', initialfile='output.png', initialdir=RECENT_DIRECTORY_OUTPUT)
     elif is_video(roop.globals.target_path):
-        output_path = ctk.filedialog.asksaveasfilename(title='save video output file', defaultextension='.mp4', initialfile='output.mp4', initialdir=RECENT_DIRECTORY_OUTPUT)
+        output_path = ctk.filedialog.asksaveasfilename(title='保存视频输出文件', defaultextension='.mp4', initialfile='output.mp4', initialdir=RECENT_DIRECTORY_OUTPUT)
     else:
         output_path = None
     if output_path:
@@ -198,13 +189,11 @@ def select_output_path(start: Callable[[], None]) -> None:
         RECENT_DIRECTORY_OUTPUT = os.path.dirname(roop.globals.output_path)
         start()
 
-
 def render_image_preview(image_path: str, size: Tuple[int, int]) -> ctk.CTkImage:
     image = Image.open(image_path)
     if size:
         image = ImageOps.fit(image, size, Image.LANCZOS)
     return ctk.CTkImage(image, size=image.size)
-
 
 def render_video_preview(video_path: str, size: Tuple[int, int], frame_number: int = 0) -> ctk.CTkImage:
     capture = cv2.VideoCapture(video_path)
@@ -219,7 +208,6 @@ def render_video_preview(video_path: str, size: Tuple[int, int], frame_number: i
     capture.release()
     cv2.destroyAllWindows()
 
-
 def toggle_preview() -> None:
     if PREVIEW.state() == 'normal':
         PREVIEW.unbind('<Right>')
@@ -231,21 +219,19 @@ def toggle_preview() -> None:
         update_preview(roop.globals.reference_frame_number)
         PREVIEW.deiconify()
 
-
 def init_preview() -> None:
-    PREVIEW.title('Preview [ ↕ Reference face ]')
+    PREVIEW.title('预览 [ ↕ 参考脸 ]')
     if is_image(roop.globals.target_path):
         preview_slider.pack_forget()
     if is_video(roop.globals.target_path):
         video_frame_total = get_video_frame_total(roop.globals.target_path)
         if video_frame_total > 0:
-            PREVIEW.title('Preview [ ↕ Reference face ] [ ↔ Frame number ]')
+            PREVIEW.title('预览 [ ↕ 参考脸 ] [ ↔ 帧编号 ]')
             PREVIEW.bind('<Right>', lambda event: update_frame(int(video_frame_total / 20)))
             PREVIEW.bind('<Left>', lambda event: update_frame(int(video_frame_total / -20)))
         preview_slider.configure(to=video_frame_total)
         preview_slider.pack(fill='x')
         preview_slider.set(roop.globals.reference_frame_number)
-
 
 def update_preview(frame_number: int = 0) -> None:
     if roop.globals.source_path and roop.globals.target_path:
@@ -270,14 +256,12 @@ def update_preview(frame_number: int = 0) -> None:
         image = ctk.CTkImage(image, size=image.size)
         preview_label.configure(image=image)
 
-
 def update_face_reference(steps: int) -> None:
     clear_face_reference()
     reference_frame_number = int(preview_slider.get())
     roop.globals.reference_face_position += steps
     roop.globals.reference_frame_number = reference_frame_number
     update_preview(reference_frame_number)
-
 
 def update_frame(steps: int) -> None:
     frame_number = preview_slider.get() + steps
